@@ -30,7 +30,8 @@ app.use(express.urlencoded({ extended: true })) //body parse this is how get acc
 
 //New - GET for the form to create a new book
 app.get("/books/new", (req, res) => {
-    res.send("new book")
+    //render the create form
+    res.render("new.ejs")
 })
 
 //Create - POST 
