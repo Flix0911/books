@@ -43,7 +43,6 @@ app.get("/books/new", (req, res) => {
     res.render("new.ejs")
 })
 
-//Create - POST 
 // Create - POST
 app.post("/books", async (req, res) => {
     try {
@@ -63,8 +62,17 @@ app.post("/books", async (req, res) => {
     }
 })
 
-//Show - GET rending only one book
+//Show - GET rendering only one book
+app.get("/books/:id", async (req, res) => {
+    // find a book by _id
+    let foundBook = await Book.findById(req.params.id) // the request params object
 
+    //console.log(foundBook)
+    // render show.ejs with the foundBook
+    res.render("show.ejs", {
+        book: foundBook
+    })
+})
 
 //server listener
 app.listen(PORT, () => console.log(`Listening to the sounds of ${PORT}`))
