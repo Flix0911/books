@@ -29,6 +29,9 @@ app.use(express.urlencoded({ extended: true })) //body parse this is how get acc
 //Index - GET display/render all of the books
 
 //New - GET for the form to create a new book
+app.get("/books/new", (req, res) => {
+    res.send("new book")
+})
 
 //Create - POST 
 // Create - POST
