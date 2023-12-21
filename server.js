@@ -27,6 +27,15 @@ app.use(express.urlencoded({ extended: true })) //body parse this is how get acc
 //routes & router
 
 //Index - GET display/render all of the books
+app.get("/books", async (req, res) => {
+    //find all of the books
+    let books = await Book.find({})
+
+    //render all of the books => index.ejs
+    res.render("index.ejs", {
+        books: books.reverse()
+    })
+})
 
 //New - GET for the form to create a new book
 app.get("/books/new", (req, res) => {
