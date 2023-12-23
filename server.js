@@ -61,6 +61,7 @@ app.delete("/books/:id", async (req, res) => {
 //UPDATE
 // UPDATE
 app.put("/books/:id", async (req, res) => {
+    try {
     // handle our checkbox
     if (req.body.completed === "on") {
         req.body.completed = true
@@ -79,6 +80,9 @@ app.put("/books/:id", async (req, res) => {
 
     // redirect to the show route with the updated book
     res.redirect(`/books/${updatedBook._id}`)
+    } catch (error) {
+        res.send("something went wrong in this route")
+    }
 })
 
 // Create - POST
