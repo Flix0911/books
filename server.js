@@ -32,6 +32,8 @@ app.use(morgan("dev")) //logger
 app.use(express.urlencoded({ extended: true })) //body parse this is how get access to req.body
 app.use(methodOverride("_method")) //lets us use DELETE and PUT HTTP verbs
 
+app.use("/public", express.static("public")) // server up our public directory the the url prefix of /public/styles.css
+
 //router
 //app.use(prefix url, router to execute) 
 app.use("/books", bookRouter)
