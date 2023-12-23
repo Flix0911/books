@@ -5,6 +5,7 @@ require("./config/db") //bring in our db configuration
 
 const express = require("express")
 const morgan = require("morgan") //best friends for all of the gossip aka logger
+const methodOverride = require("method-override")
 
 //our application
 const app = express()
@@ -23,6 +24,7 @@ const Book = require("./models/Book")
 
 app.use(morgan("dev")) //logger
 app.use(express.urlencoded({ extended: true })) //body parse this is how get access to req.body
+app.use(methodOverride("_method")) //lets us use DELETE and PUT HTTP verbs
 
 //routes & router
 
@@ -43,6 +45,22 @@ app.get("/books/new", (req, res) => {
     res.render("new.ejs")
 })
 
+//DELETE 
+app.delete("/books/:id", async (req, res) => {
+    try {
+    //find a book and then delete it
+    let deletedBook = await Book.findByIdAndDelete(req.params.id)
+        console.log(deletedBook)
+    //good ui response? redirect back to the index
+    res.redirect("/books")
+    } catch (error) {
+        res.status(500).send("something went wrong when deleting")
+    }
+})
+
+//UPDATE
+
+
 // Create - POST
 app.post("/books", async (req, res) => {
     try {
@@ -60,6 +78,19 @@ app.post("/books", async (req, res) => {
     } catch (err) {
         res.send(err)
     }
+})
+
+//EDIT
+app.get("/books/edit/:id", async (req, res) => {
+    try {
+        //find the book and edit
+        let foundBook = await Book.findById(req.params.id)
+        res.render("edit", {
+            book: foundBook
+        })
+    } catch (error) {
+        res.send("hello from the error side")
+    }    
 })
 
 //Show - GET rendering only one book
