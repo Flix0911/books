@@ -11,6 +11,7 @@ const methodOverride = require("method-override")
 const app = express()
 const { PORT = 3013 } = process.env
 //const PORT = process.env.PORT || 3013 ~ this is the same as above
+const seedData = require("./models/seed")
 
 //bring in our model
 const Book = require("./models/Book")
@@ -115,6 +116,22 @@ app.get("/books/edit/:id", async (req, res) => {
     } catch (error) {
         res.send("hello from the error side")
     }    
+})
+
+//Seed - GET
+app.get("/books/seed", async (req, res) => {
+    try {
+    //delete everything in the database
+    await Book.deleteMany({})
+    //Create data in the database
+    await Book.create(
+        seedData
+      )
+    //redirect back to index
+    res.redirect("/books")
+    } catch (error) {
+        res.send("something went wrong with your seeds")
+    }
 })
 
 //Show - GET rendering only one book
